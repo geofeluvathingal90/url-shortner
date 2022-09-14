@@ -16,7 +16,7 @@ use App\Services\ShortLinkService;
 use Illuminate\View\View;
 
 class ShortLinkController extends BaseController
-{   
+{
     /**
    * The ShortLinkService implementation.
    *
@@ -36,50 +36,49 @@ class ShortLinkController extends BaseController
         $this->service = $service;
     }
 
-    /**  
-     * To Check if short url exist and redirect.  
-     * 
+    /**
+     * To Check if short url exist and redirect.
+     *
      * @method index
-     * 
+     *
      * @param  string $key
-     */  
-    public function index(string $key)  
-    {  
+     */
+    public function index(string $key)
+    {
         //Get Acual Link from code
         $url = $this->service->getAcutalLink($key);
         return redirect($url);
-    }  
+    }
 
-    /**  
-     * To List all short links.  
-     * 
+    /**
+     * To List all short links.
+     *
      * @method list
-     * 
+     *
      * @param  string $key
      * @return View
-     */  
-    public function list():view
-    {   
+     */
+    public function list(): view
+    {
         //List all links
         $shortLinks = $this->service->getAllshortLinks();
-        return view('short_link', compact('shortLinks'));  
+        return view('short_link', compact('shortLinks'));
     }
-    /**  
-     * It is used to show the resource list.  
-     *  
+    /**
+     * It is used to show the resource list.
+     *
       * @param  ShortLinkRequest
-     */  
-    public function save(ShortLinkRequest $request)  
-    {  
+     */
+    public function save(ShortLinkRequest $request)
+    {
         try {
             //Save new link and generate short link
-            $this->service->saveshortLink($request); 
-            return redirect()->route('shorten.link.list')  
-             ->with('success', 'Shorten Link Generated Successfully!'); 
-        }catch (CommonServerException $e) {
+            $this->service->saveshortLink($request);
+            return redirect()->route('shorten.link.list')
+             ->with('success', 'Shorten Link Generated Successfully!');
+        } catch (CommonServerException $e) {
             // Throws error exception
             return $e->render();
         }
-    }  
-     
+    }
 }
